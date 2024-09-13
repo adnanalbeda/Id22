@@ -9,12 +9,15 @@
   <PropertyGroup>
     <PackageId>Id22</PackageId>
     <Description>A wrapper against Guid.</Description>
+    <PackageTags>Id22;Guid;Uuid</PackageTags>
     <Version>0.1.0-prerelease</Version>
     <Authors>Adnan AlBeda</Authors>
-    <PackageIcon>../icon.jpg</PackageIcon>
-    <PackageReadmeFile>../readme.md</PackageReadmeFile>
+    <PackageIcon>icon.jpg</PackageIcon>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/adnanalbeda/Id22</RepositoryUrl>
+
 
     <!-- Optional: Publish the repository URL in the built .nupkg 
      (in the NuSpec <Repository> element) -->
@@ -23,5 +26,10 @@
     <!-- Optional: Embed source files that are not tracked by the source control manager in the PDB -->
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\icon.jpg" Pack="true" PackagePath="\" />
+    <None Include="..\readme.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
 </Project>
