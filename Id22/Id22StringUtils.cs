@@ -80,6 +80,11 @@ public partial record struct Id22
     public static bool StringIsNotValidShortId([NotNullWhen(false)] string? value) =>
         value is null || value.Length != 22 || !Regex.IsMatch(value, "^[a-zA-Z0-9_-]{22}$");
 
+    public static bool StringIsNotValidGuid([NotNullWhen(false)] string? value) =>
+        value is null
+        || value.Length != 36
+        || !Regex.IsMatch(value, "^[a-fA-F0-9]{8}(-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}");
+
     private static Guid _GuidFromShortId(string id)
     {
         id = new StringBuilder(id).Replace("_", "/").Replace("-", "+").Append("==").ToString();

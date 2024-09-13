@@ -8,6 +8,9 @@ namespace System;
 /// <param name="Value"></param>
 public readonly partial record struct Id22(Guid Value)
 {
+    public Id22()
+        : this(Guid.NewGuid()) { }
+
     public static implicit operator Guid(Id22 id) => id.Value;
 
     public static implicit operator Id22(Guid id) => FromValue(id);

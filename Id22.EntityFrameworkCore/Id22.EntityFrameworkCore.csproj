@@ -18,7 +18,7 @@
     <PackageId>Id22.EntityFrameworkCore</PackageId>
     <Description>EntityFrameworkCore utils for Id22.</Description>
     <PackageTags>Id22;Guid;Uuid;EntityFrameworkCore</PackageTags>
-    <Version>0.1.1-prerelease</Version>
+    <Version>0.1.2-prerelease</Version>
     <Authors>Adnan AlBeda</Authors>
     <PackageIcon>icon.jpg</PackageIcon>
     <PackageReadmeFile>readme.md</PackageReadmeFile>

@@ -20,7 +20,8 @@ public partial class Id22Converters
                 return default;
 
             var value = JsonSerializer.Deserialize<string>(ref reader, options);
-            return Id22.Parse(value);
+            Id22.TryParse(value, out Id22 result);
+            return result;
         }
 
         public override void Write(Utf8JsonWriter writer, Id22 value, JsonSerializerOptions options)
