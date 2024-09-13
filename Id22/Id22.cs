@@ -8,9 +8,6 @@ namespace System;
 /// <param name="Value"></param>
 public readonly partial record struct Id22(Guid Value)
 {
-    public Id22()
-        : this(Guid.NewGuid()) { }
-
     public static implicit operator Guid(Id22 id) => id.Value;
 
     public static implicit operator Id22(Guid id) => FromValue(id);
@@ -23,21 +20,45 @@ public readonly partial record struct Id22(Guid Value)
 
     public static Id22 FromValue(Guid id) => new(id);
 
-    public static Id22? FromValue(Guid? id) => GuidIsEmpty(id) ? null : new(id.Value);
+    public static Id22? FromValue(Guid? id)
+    {
+        if (!id.HasValue)
+            return null;
 
-    public static Id22 FromValueOrDefault(Guid? id) => id.HasValue ? new(id.Value) : default;
+        return FromValue(id.Value);
+    }
+
+    public static Id22 FromValueOrDefault(Guid? id)
+    {
+        if (!id.HasValue)
+            return default;
+
+        return new(id.Value);
+    }
 
     /// <summary>
     /// Checks if <paramref name="id"/> is valid as <see cref="Id22"/> value by testing it against <see cref="IsEmpty(Id22?)"/>.
     /// </summary>
     /// <returns><see cref="Id22"/> <paramref name="id"/> value if valid. Otherwise, a new value.</returns>
-    public static Id22 ValueOrNew(Id22? id) => IsEmpty(id) ? New() : id.Value;
+    public static Id22 ValueOrNew(Id22? id)
+    {
+        if (IsEmpty(id))
+            return New();
+
+        return id.Value;
+    }
 
     /// <summary>
     /// Checks if <paramref name="id"/> is valid as <see cref="Id22"/> value by testing it against <see cref="IsEmpty(Id22?)"/>.
     /// </summary>
     /// <returns><see cref="Id22"/> <paramref name="id"/> value if valid. Otherwise, a default value.</returns>
-    public static Id22 ValueOrDefault(Id22? id) => IsEmpty(id) ? default : id.Value;
+    public static Id22 ValueOrDefault(Id22? id)
+    {
+        if (IsEmpty(id))
+            return default;
+
+        return id.Value;
+    }
 
     /// <summary>
     /// Checks if <paramref name="value"/> is null, default or its <see cref="Guid"/> value equals <see cref="Guid.Empty"/>

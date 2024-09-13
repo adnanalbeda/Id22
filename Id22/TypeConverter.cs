@@ -18,14 +18,32 @@ public partial class Id22Converters
             || sourceType == typeof(string)
             || base.CanConvertFrom(context, sourceType);
 
+        // Use of Id22.Parse is intended so it only accepts:
+        // - null or empty string.
+        // - string that matches short id or guid id formats.
+        // If any other string value type is passed, error will be thrown.
+        // This helps to reduce checks.
+        // In asp, for example, it helps to decline requests with invalid ids before reaching controller,
+        // so only valid ids will be passed for processing and no need for extra checks.
+        // At the same time, it avoids invalid string values to be processed as default,
+        // so no weird unexpected happy processing happens.
         public override object? ConvertFrom(
             ITypeDescriptorContext? context,
             CultureInfo? culture,
             object value
-        ) =>
-            value is Guid gid ? Id22.FromValue(gid)
-            : value is string uuid ? Id22.Parse(uuid)
-            : base.ConvertFrom(context, culture, value);
+        )
+        {
+            if (value is null)
+                return default(Id22);
+
+            if (value is Guid gid)
+                return Id22.FromValue(gid);
+
+            if (value is string id)
+                return Id22.Parse(id);
+
+            return base.ConvertFrom(context, culture, value);
+        }
 
         public override bool CanConvertTo(
             ITypeDescriptorContext? context,
@@ -47,14 +65,17 @@ public partial class Id22Converters
             {
                 return base.ConvertTo(context, culture, value, destinationType);
             }
+
             if (destinationType == typeof(Guid) || destinationType == typeof(Guid?))
             {
                 return uid.Value;
             }
+
             if (destinationType == typeof(string))
             {
                 uid.ToString();
             }
+
             return base.ConvertTo(context, culture, value, destinationType);
         }
     }

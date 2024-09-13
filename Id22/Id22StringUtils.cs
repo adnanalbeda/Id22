@@ -18,21 +18,22 @@ public partial record struct Id22
     }
 
     /// <summary>
-    /// Converts <see cref="Id22.Value"/> to Base64 22-character string.
+    /// Converts <see cref="Value"/> to Base64 22-character string.
     /// </summary>
     /// <param name="id"></param>
     /// <returns>A Base64 string value.</returns>
-    public string ToShortId() => GuidToShortId(this.Value);
+    public string ToShortId() => GuidToShortId(Value);
 
     /// <summary>
     /// Converts <paramref name="id"/>'s Value to Base64 22-character string.
     /// </summary>
     /// <param name="id"></param>
     /// <returns>A Base64 string value.</returns>
-    public static string ToShortId(Id22? id)
+    public static string? ToShortId(Id22? id)
     {
         if (!id.HasValue)
-            return string.Empty;
+            return null;
+
         return GuidToShortId(id.Value.Value);
     }
 
@@ -45,13 +46,17 @@ public partial record struct Id22
     {
         if (Guid.Empty == id)
             return string.Empty;
-        var encodedSB = new StringBuilder(Convert.ToBase64String(id.ToByteArray()));
-        encodedSB = encodedSB.Replace("/", "_").Replace("+", "-").Remove(22, 2);
-        return encodedSB.ToString();
+
+        var encoded = new StringBuilder(Convert.ToBase64String(id.ToByteArray()))
+            .Replace("/", "_")
+            .Replace("+", "-")
+            .Remove(22, 2);
+
+        return encoded.ToString();
     }
 
     /// <summary>
-    /// Converts <paramref name="value"/>'s Value <see cref="Id22"/> if possible..
+    /// Converts <paramref name="value"/>'s Value <see cref="Id22"/> if possible.
     /// </summary>
     /// <param name="value"></param>
     /// <returns>A <see cref="Id22"/> value represented by <paramref name="value"/> short value. Or a default one if <paramref name="value"/> is not valid.</returns>
@@ -78,12 +83,16 @@ public partial record struct Id22
     /// <param name="value"></param>
     /// <returns>true if possibly not valid. Otherwise, false.</returns>
     public static bool StringIsNotValidShortId([NotNullWhen(false)] string? value) =>
-        value is null || value.Length != 22 || !Regex.IsMatch(value, "^[a-zA-Z0-9_-]{22}$");
+        value is null || value.Length != 22 || !StringMatchesShortIdFormat(value);
 
     public static bool StringIsNotValidGuid([NotNullWhen(false)] string? value) =>
-        value is null
-        || value.Length != 36
-        || !Regex.IsMatch(value, "^[a-fA-F0-9]{8}(-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}");
+        value is null || value.Length != 36 || !StringMatchesGuidFormat(value);
+
+    public static bool StringMatchesShortIdFormat(string value) =>
+        Regex.IsMatch(value, "^[a-zA-Z0-9_-]{22}$");
+
+    public static bool StringMatchesGuidFormat(string value) =>
+        Regex.IsMatch(value, "^[a-fA-F0-9]{8}(-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}$");
 
     private static Guid _GuidFromShortId(string id)
     {

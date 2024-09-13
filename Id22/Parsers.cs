@@ -10,9 +10,9 @@ public partial record struct Id22
     /// <param name="value"></param>
     /// <returns><see cref="Id22"/> of the value if parsing is successful. Otherwise, a default value.</returns>
     public static Id22 Parse(string? s) =>
-        s is null
+        string.IsNullOrEmpty(s)
             ? default
-            : FromValue(StringIsNotValidShortId(s) ? Guid.Parse(s) : _GuidFromShortId(s));
+            : FromValue(StringMatchesShortIdFormat(s) ? _GuidFromShortId(s) : Guid.Parse(s));
 
     public static bool TryParse(
         [NotNullWhen(true)] string? s,
@@ -21,22 +21,23 @@ public partial record struct Id22
     {
         result = default;
 
-        if (s is null)
+        if (string.IsNullOrEmpty(s))
         {
             return false;
         }
 
-        if (StringIsNotValidShortId(s))
-            if (Guid.TryParse(s, out Guid gid))
-            {
-                result = FromValue(gid);
-                return true;
-            }
-            else
-                return false;
-
-        result = FromValue(_GuidFromShortId(s));
+        if (StringMatchesShortIdFormat(s))
+        {
+            result = FromValue(_GuidFromShortId(s));
+        }
+        else if (Guid.TryParse(s, out Guid gid))
+        {
+            result = FromValue(gid);
+        }
 
         return default != result;
     }
+
+    public static bool StringIsParsable([NotNullWhen(true)] string? value) =>
+        value is not null && (StringMatchesShortIdFormat(value) || StringMatchesGuidFormat(value));
 }
