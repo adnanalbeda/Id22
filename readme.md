@@ -13,6 +13,7 @@ A wrapper against Guid.
         - [Microsoft.EntityFramework.Id22Converters](#microsoftentityframeworkid22converters)
             - [Setup](#setup)
     - [Tips](#tips)
+        - [Swagger](#swagger)
 
 <!-- /TOC -->
 
@@ -121,3 +122,30 @@ global using Id = Id22;
 ```
 
 so you use `Id` instead of `Id22`.
+
+### Swagger
+
+When using swagger, it can't pickup the json serializer.
+
+So add this config line to show al Id22 properties as string:
+
+```cs
+builder.Services.AddSwaggerGen(
+    (opt) =>
+    {
+
+        ...configs
+
+        opt.MapType<Id>(
+            () =>
+                new OpenApiSchema
+                {
+                    Type = "string",
+                    Example = new OpenApiString("A1C2E3G4I5K6M7O8Q9E0-_"),
+                }
+        );
+
+        ...configs
+    }
+)
+```
