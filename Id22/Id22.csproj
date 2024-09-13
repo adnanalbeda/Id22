@@ -8,8 +8,13 @@
 
   <PropertyGroup>
     <PackageId>Id22</PackageId>
-    <Version>0.1.0</Version>
+    <Description>A wrapper against Guid.</Description>
+    <Version>0.1.0-prerelease</Version>
     <Authors>Adnan AlBeda</Authors>
+    <PackageIcon>../icon.jpg</PackageIcon>
+    <PackageReadmeFile>../readme.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/adnanalbeda/Id22</RepositoryUrl>
 
     <!-- Optional: Publish the repository URL in the built .nupkg 
      (in the NuSpec <Repository> element) -->
