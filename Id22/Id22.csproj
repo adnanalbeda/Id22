@@ -9,8 +9,8 @@
   <PropertyGroup>
     <PackageId>Id22</PackageId>
     <Description>A wrapper against Guid.</Description>
-    <PackageTags>Id22;Guid;Uuid</PackageTags>
-    <Version>0.1.3-prerelease</Version>
+    <PackageTags>Id;Id22;Guid;Uuid</PackageTags>
+    <Version>0.1.4-prerelease</Version>
     <Authors>Adnan AlBeda</Authors>
     <PackageIcon>icon.jpg</PackageIcon>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
