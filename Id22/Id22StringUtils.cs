@@ -6,7 +6,7 @@ namespace System;
 
 public partial record struct Id22
 {
-    public static implicit operator string(Id22 id) => id.ToString();
+    public static explicit operator string(Id22 id) => id.ToString();
 
     /// <summary>
     /// Returns id value as string.
